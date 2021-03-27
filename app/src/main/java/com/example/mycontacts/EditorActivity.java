@@ -171,7 +171,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
     }
 
-    // now worrking on menu options
+    // now working on menu options
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(navListener);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
+
+
 
         ListView listView = findViewById(R.id.list);
         mAdapter = new Adapter(this, null);
@@ -50,13 +58,30 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 intent.setData(newUri);
                 startActivity(intent);
 
+
             }
         });
 
+
+
         // get the loader running
         getLoaderManager().initLoader(CONTACTLOADER, null, this);
-    }
 
+
+    }
+    private final BottomNavigationView.OnNavigationItemSelectedListener navListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                    Fragment selectedFragment = null;
+
+                    if (menuItem.getItemId() == R.id.nav_emergency) {
+                        selectedFragment = new EmergencyFragment();
+                    }
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
+                    return true;
+                }
+            };
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
