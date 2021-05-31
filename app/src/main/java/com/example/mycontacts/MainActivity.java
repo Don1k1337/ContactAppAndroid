@@ -13,12 +13,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -26,18 +31,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final  int CONTACTLOADER = 0;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
+        final Animation anim = AnimationUtils.loadAnimation(this, R.anim.bounce);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fab.startAnimation(anim);
                 Intent intent = new Intent(MainActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
@@ -132,4 +143,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
         return super.onCreateOptionsMenu(menu);
     }
+
+
 }
